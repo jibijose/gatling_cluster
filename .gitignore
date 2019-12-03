@@ -1,0 +1,7 @@
+.idea
+gatling_cluster.iml
+**/.terraform
+**/terraform.tfstate
+**/terraform.tfstate.backup
+
+**/ssh_keys/*
