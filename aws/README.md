@@ -39,17 +39,17 @@ id_rsa		id_rsa.pub
 
 # Terraform
 Install terraform from https://www.terraform.io/downloads.html (version 0.12+)
-```
-$terraform -version
-Terraform v0.12.0
-
-Your version of Terraform is out of date! The latest version
-is 0.12.16. You can update by downloading from www.terraform.io/downloads.html
-```
+   ```
+   $terraform -version
+   Terraform v0.12.0
+   
+   Your version of Terraform is out of date! The latest version
+   is 0.12.16. You can update by downloading from www.terraform.io/downloads.html
+   ```
 
 Run command below to initialize terraform based on your *.tf files.
--  terraform init
 ```
+$terraform init
 Initializing the backend...
 
 Initializing provider plugins...
