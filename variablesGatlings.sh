@@ -29,7 +29,7 @@ else
   HOSTSLIST=`az vm list --resource-group "$azure_gatling_rg" --show-details --query "[].privateIps" --o tsv | xargs | sed -e 's/ / /g'`
 fi
 HOSTS=($HOSTSLIST)
-echo "### `date` Running gatling on $HOSTS"
+echo "### `date` Running gatling on [$HOSTSLIST]"
 
 #Assuming all Gatling installation in same path (with write permissions)
 RUN_HOME=/home/$USER_NAME/gatling_run_dir
