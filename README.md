@@ -1,5 +1,9 @@
 ### Gatling cluster
 
+This creates a cluster of gatling VMs, remotely executes simulation, and collects, aggregates and reports the final report. This allows us to scale gatling to any server load without worrying about gatling server resources.  
+VM provisioning is also automated for aws and azure. It creates VMs on cloud, and also destroys all gatling VMs once simulation is finished. We can easily pull gatling cluster into any automated tool.   
+
+
 ## VM provisioning
 
 If you want to provision aws VMs for gatling cluster then please follow this [AWS VMs](aws/README.md)   
