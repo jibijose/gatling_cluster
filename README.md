@@ -197,3 +197,7 @@ Removing azure files
 undoing variables.tf changes
 Cleanup successful
 ```
+## Gatling report
+
+Combined report looks like the one below.  
+![Gatling report](docs/gatling_report.png)
