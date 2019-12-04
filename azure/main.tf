@@ -39,7 +39,8 @@ resource "azurerm_network_interface" "nic" {
   }
 
   tags = {
-    environment =  "test"
+    environment =  "gatling_test"
+    Name = "gatling-cluster-${count.index}-vm-nic"
   }
 }
 
@@ -97,6 +98,7 @@ resource "azurerm_virtual_machine" "vm" {
   }
 
   tags = {
-    environment = "test"
+    environment = "gatling_test"
+    Name = "gatling-cluster-${count.index}-vm"
   }
 }

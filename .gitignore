@@ -6,3 +6,7 @@ gatling_cluster.iml
 **/.terraform.tfstate.lock.info
 
 **/ssh_keys/*
+**/variables.tf
+
+gatling-charts-highcharts-bundle-3.3.1-bundle.zip
+gatling-charts-highcharts-bundle-3.3.1/*

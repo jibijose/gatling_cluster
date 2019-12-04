@@ -48,7 +48,7 @@ resource "aws_security_group" "sg" {
       cidr_blocks     = ["0.0.0.0/0"]
     }
     tags = {
-      environment = "test"
+      environment = "gatling_test"
     }
 }
 
@@ -62,7 +62,7 @@ resource "aws_instance" "vm" {
   key_name = "${aws_key_pair.kp.id}"
 
   tags = {
-    environment = "test"
+    environment = "gatling_test"
     Name = "gatling-cluster-${count.index}-vm"
   }
 }
