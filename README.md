@@ -6,6 +6,7 @@ VM provisioning is also automated for aws and azure. It creates VMs on cloud, an
 
 ## VM provisioning
 
+![Gatling cluster infra](docs/gatling_cluster_infra.png)
 If you want to provision aws VMs for gatling cluster then please follow this [AWS VMs](aws/README.md)   
 If you want to provision azure VMs for gatling cluster then please follow this [Azure VMs](azure/README.md)   
 
@@ -70,6 +71,8 @@ network_interface_private_ip = [
   "34.250.121.63",
 ]
 ```
+# Setup, Start, Stop, Results user flow.
+![Gatling cluster life cycle](docs/gatling_cluster_lifecycle.png)
 
 #Setup remote gatlings
 ```
