@@ -1,5 +1,9 @@
+terraform {
+  required_version = ">= 0.12.18"
+}
+
 provider "aws" {
-  region = "${var.location}"
+  region = var.location
 }
 
 data "aws_vpc" "default" {
@@ -34,7 +38,7 @@ resource "aws_key_pair" "kp" {
 resource "aws_security_group" "sg" {
     name        = "gatling-cluster-sg"
     description = "Gatling cluster security group"
-    vpc_id = "${data.aws_vpc.default.id}"
+    vpc_id = data.aws_vpc.default.id
     ingress {
       from_port = 22
       to_port     = 22
@@ -54,12 +58,12 @@ resource "aws_security_group" "sg" {
 
 
 resource "aws_instance" "vm" {
-  count                 = "${var.vmcount}"
-  ami       =  "${data.aws_ami.linux.id}"
-  instance_type = "${var.vmsize}"
+  count                 = var.vmcount
+  ami       =  data.aws_ami.linux.id
+  instance_type = var.vmsize
   security_groups = ["${aws_security_group.sg.id}"]
-  subnet_id = "${data.aws_subnet.default.id}"
-  key_name = "${aws_key_pair.kp.id}"
+  subnet_id = data.aws_subnet.default.id
+  key_name = aws_key_pair.kp.id
 
   tags = {
     environment = "gatling_test"
@@ -68,7 +72,7 @@ resource "aws_instance" "vm" {
 }
 
 resource "null_resource" "vminit" {
-  count                 = "${var.vmcount}"
+  count                 = var.vmcount
 
   triggers = {
     public_ip = "${element(aws_instance.vm.*.public_ip, count.index)}"
@@ -76,9 +80,9 @@ resource "null_resource" "vminit" {
 
   connection {
     type = "ssh"
-    host = "${element(aws_instance.vm.*.public_ip, count.index)}"
+    host = element(aws_instance.vm.*.public_ip, count.index)
     user = "ubuntu"
-    private_key = "${file("./ssh_keys/id_rsa")}"
+    private_key = file("./ssh_keys/id_rsa")
     agent = false
   }
 

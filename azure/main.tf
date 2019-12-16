@@ -1,3 +1,7 @@
+terraform {
+  required_version = ">= 0.12.18"
+}
+
 provider "azurerm" {
   version = ">=1.36.0"
 }
@@ -27,14 +31,14 @@ EOF
 }
 
 resource "azurerm_network_interface" "nic" {
-  count                 = "${var.vmcount}"
+  count                 = var.vmcount
   name                      = "${var.name_prefix}-${count.index}-vm-nic"
-  location                  = "${var.location}"
-  resource_group_name       = "${var.resource_group_name}"
+  location                  = var.location
+  resource_group_name       = var.resource_group_name
 
   ip_configuration {
     name                          = "internal"
-    subnet_id                     = "${data.azurerm_subnet.test_subnet.id}"
+    subnet_id                     = data.azurerm_subnet.test_subnet.id
     private_ip_address_allocation = "Dynamic"
   }
 
@@ -45,12 +49,12 @@ resource "azurerm_network_interface" "nic" {
 }
 
 resource "azurerm_virtual_machine" "vm" {
-  count                 = "${var.vmcount}"
+  count                 = var.vmcount
   name                  = "${var.name_prefix}-${count.index}-vm"
-  location              = "${var.location}"
-  resource_group_name   = "${var.resource_group_name}"
+  location              = var.location
+  resource_group_name   = var.resource_group_name
   network_interface_ids = ["${element(azurerm_network_interface.nic.*.id, count.index)}"]
-  vm_size               = "${var.vmsize}"
+  vm_size               = var.vmsize
   delete_data_disks_on_termination = true
   delete_os_disk_on_termination = true
 
@@ -85,9 +89,9 @@ resource "azurerm_virtual_machine" "vm" {
   provisioner "remote-exec" {
     connection {
       type = "ssh"
-      host = "${element(azurerm_network_interface.nic.*.private_ip_address, count.index)}"
+      host = element(azurerm_network_interface.nic.*.private_ip_address, count.index)
       user     = "ubuntu"
-      private_key = "${trimspace(tls_private_key.key.private_key_pem)}"
+      private_key = trimspace(tls_private_key.key.private_key_pem)
     }
 
     inline = [
