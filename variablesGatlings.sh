@@ -25,7 +25,7 @@ if [ $CLOUD == 'aws' ]
 then
   HOSTSLIST=`aws ec2 describe-instances --filters "Name=tag:Name,Values=gatling-cluster-*-vm" --query "Reservations[].Instances[].PublicIpAddress"  --output text`
 else
-  azure_gatling_rg=`az resource list --tag 'environment=gatling_test' --query "[0].resourceGroup" -o tsv`
+  azure_gatling_rg=euw-dev-127-cos-test-rg
   HOSTSLIST=`az vm list --resource-group "$azure_gatling_rg" --show-details --query "[].privateIps" --o tsv | xargs | sed -e 's/ / /g'`
 fi
 HOSTS=($HOSTSLIST)
@@ -40,6 +40,7 @@ GATLING_HOME_DIR_NAME=gatling-charts-highcharts-bundle-3.3.1
 GATLING_HOME=$RUN_HOME/$GATLING_HOME_DIR_NAME
 GATLING_SIMULATIONS_DIR=$GATLING_HOME/user-files/simulations
 GATLING_RUNNER=$GATLING_HOME/bin/gatling.sh
+GATLING_CONF=$GATLING_HOME/conf/gatling.conf
 GATLING_REPORT_DIR=$GATLING_HOME/results/
 GATLING_DOWNLOAD_LINK=https://repo1.maven.org/maven2/io/gatling/highcharts/gatling-charts-highcharts-bundle/3.3.1/gatling-charts-highcharts-bundle-3.3.1-bundle.zip
 
