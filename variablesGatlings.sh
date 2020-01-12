@@ -25,8 +25,9 @@ if [ $CLOUD == 'aws' ]
 then
   HOSTSLIST=`aws ec2 describe-instances --filters "Name=tag:Name,Values=gatling-cluster-*-vm" --query "Reservations[].Instances[].PublicIpAddress"  --output text`
 else
-  azure_gatling_rg=euw-dev-127-cos-test-rg
+  azure_gatling_rg=`az resource list --tag 'environment=gatling_test' --query "[0].resourceGroup" -o tsv`
   HOSTSLIST=`az vm list --resource-group "$azure_gatling_rg" --show-details --query "[].privateIps" --o tsv | xargs | sed -e 's/ / /g'`
+  #HOSTSLIST=10.118.23.146
 fi
 HOSTS=($HOSTSLIST)
 echo "### `date` Running gatling on [$HOSTSLIST]"
@@ -34,6 +35,7 @@ echo "### `date` Running gatling on [$HOSTSLIST]"
 #Assuming all Gatling installation in same path (with write permissions)
 RUN_HOME=/home/$USER_NAME/gatling_run_dir
 LOCAL_RUN_DIR=`pwd`
+REMOTE_RUN_DIR=/home/$USER_NAME/gatling_result_dir
 
 GATLING_ZIP=gatling-charts-highcharts-bundle-3.3.1-bundle.zip
 GATLING_HOME_DIR_NAME=gatling-charts-highcharts-bundle-3.3.1
@@ -50,3 +52,12 @@ LOCAL_GATLING_HOME=$LOCAL_RUN_DIR/$GATLING_HOME_DIR_NAME
 LOCAL_REPORT_DIR=$LOCAL_GATLING_HOME/results/
 LOCAL_GATLING_RUNNER=$LOCAL_GATLING_HOME/bin/gatling.sh
 LOCAL_PRIVATE_KEY=$LOCAL_RUN_DIR/$CLOUD/ssh_keys/id_rsa
+LOCAL_PUBLIC_KEY=$LOCAL_RUN_DIR/$CLOUD/ssh_keys/id_rsa.pub
+
+REMOTE_GATLING_HOME=$REMOTE_RUN_DIR/$GATLING_HOME_DIR_NAME
+REMOTE_RESULT_DIR=$REMOTE_GATLING_HOME/results/
+REMOTE_GATLING_RUNNER=$REMOTE_GATLING_HOME/bin/gatling.sh
+REMOTE_PRIVATE_KEY=$REMOTE_GATLING_HOME/$CLOUD/ssh_keys/id_rsa
+REMOTE_GATHER_REPORTS_DIR=/home/$USER_NAME/reports/
+REMOTE_GATLING_RUNNER=$REMOTE_GATLING_HOME/bin/gatling.sh
+REMOTE_GATLING_CONF=$REMOTE_GATLING_HOME/conf/gatling.conf
