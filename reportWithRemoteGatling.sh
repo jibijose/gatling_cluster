@@ -32,12 +32,12 @@ done
 ssh -i $LOCAL_PRIVATE_KEY -n -f $USER_NAME@$REMOTEHOST "mv $REMOTE_GATHER_REPORTS_DIR $REMOTE_RESULT_DIR"
 
 echo "Generating combined reports from $HOSTS"
-ssh -i $LOCAL_PRIVATE_KEY -n -f $USER_NAME@$REMOTEHOST "sed -i 's/-Xmx1G/-Xmx4G -Xmx4G/g' $REMOTE_GATLING_RUNNER"
+ssh -i $LOCAL_PRIVATE_KEY -n -f $USER_NAME@$REMOTEHOST "sed -i 's/-Xms1G/-Xmx4G -Xmx4G/g' $REMOTE_GATLING_RUNNER"
 ssh -i $LOCAL_PRIVATE_KEY -n -f $USER_NAME@$REMOTEHOST "sed -i 's/#lowerBound = 800/lowerBound = 200/g' $REMOTE_GATLING_CONF"
 ssh -i $LOCAL_PRIVATE_KEY -n -f $USER_NAME@$REMOTEHOST "sed -i 's/#higherBound = 1200/higherBound = 500/g' $REMOTE_GATLING_CONF"
 ssh -i $LOCAL_PRIVATE_KEY -n -f $USER_NAME@$REMOTEHOST "sed -i 's/#enableGA = true/enableGA = false/g' $REMOTE_GATLING_CONF"
 ssh -i $LOCAL_PRIVATE_KEY -n -f $USER_NAME@$REMOTEHOST "sed -i 's/#maxRetry = 2/maxRetry = 1/g' $REMOTE_GATLING_CONF"
-ssh -i $LOCAL_PRIVATE_KEY -n -f $USER_NAME@$REMOTEHOST "sed -i 's/#requestTimeout = 60000/requestTimeout = 10000/g' $REMOTE_GATLING_CONF"
+ssh -i $LOCAL_PRIVATE_KEY -n -f $USER_NAME@$REMOTEHOST "sed -i 's/#requestTimeout = 60000/requestTimeout = 1000/g' $REMOTE_GATLING_CONF"
 
 ssh -i $LOCAL_PRIVATE_KEY -n -f $USER_NAME@$REMOTEHOST "$REMOTE_GATLING_RUNNER -ro reports"
 

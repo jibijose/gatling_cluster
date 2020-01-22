@@ -15,3 +15,4 @@ gatling-charts-highcharts-bundle-3.3.1/*
 *.scala
 *.json
 reports/*
+EsAzure*.sh
