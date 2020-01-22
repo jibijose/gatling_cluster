@@ -36,7 +36,7 @@ ssh -i $LOCAL_PRIVATE_KEY -n -f $USER_NAME@$REMOTEHOST "mkdir -p ${REMOTE_GATHER
 for HOST in "${HOSTS[@]}"
 do
     echo "Collecting logs from host: $HOST"
-    #ssh -i $LOCAL_PRIVATE_KEY -n -f $USER_NAME@$REMOTEHOST "ssh -o 'StrictHostKeyChecking no' -n -f $USER_NAME@$HOST 'ls -t $GATLING_REPORT_DIR | head -n 1 | xargs -I {} mv ${GATLING_REPORT_DIR}{} ${GATLING_REPORT_DIR}report'"
+    ssh -i $LOCAL_PRIVATE_KEY -n -f $USER_NAME@$REMOTEHOST "ssh -o 'StrictHostKeyChecking no' -n -f $USER_NAME@$HOST 'ls -t $GATLING_REPORT_DIR | head -n 1 | xargs -I {} mv ${GATLING_REPORT_DIR}{} ${GATLING_REPORT_DIR}report'"
     ssh -i $LOCAL_PRIVATE_KEY -n -f $USER_NAME@$REMOTEHOST "scp $USER_NAME@$HOST:${GATLING_REPORT_DIR}report/simulation.log ${REMOTE_GATHER_REPORTS_DIR}simulation-$HOST.log"
 done
 
