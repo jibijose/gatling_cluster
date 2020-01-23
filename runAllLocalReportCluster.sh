@@ -1,5 +1,11 @@
 #!/bin/bash
 
+if [ "$#" -ne 2 ]
+then
+    echo "$0 Cloud SimulationClass"
+    exit 1
+fi
+
 #./setupVMs.sh $1 $2
 ./setupGatlings.sh $1 $2
 
