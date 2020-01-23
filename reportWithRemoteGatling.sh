@@ -43,12 +43,12 @@ done
 ssh -i $LOCAL_PRIVATE_KEY -n -f $USER_NAME@$REMOTEHOST "mv $REMOTE_GATHER_REPORTS_DIR $REMOTE_RESULT_DIR"
 
 echo "Generating combined reports from $HOSTSLIST"
-ssh -i $LOCAL_PRIVATE_KEY -n -f $USER_NAME@$REMOTEHOST "sed -i 's/-Xms1G/-Xmx4G -Xmx4G/g' $REMOTE_GATLING_RUNNER"
-ssh -i $LOCAL_PRIVATE_KEY -n -f $USER_NAME@$REMOTEHOST "sed -i 's/#lowerBound = 800/lowerBound = 500/g' $REMOTE_GATLING_CONF"
-ssh -i $LOCAL_PRIVATE_KEY -n -f $USER_NAME@$REMOTEHOST "sed -i 's/#higherBound = 1200/higherBound = 1000/g' $REMOTE_GATLING_CONF"
-ssh -i $LOCAL_PRIVATE_KEY -n -f $USER_NAME@$REMOTEHOST "sed -i 's/#enableGA = true/enableGA = false/g' $REMOTE_GATLING_CONF"
-#ssh -i $LOCAL_PRIVATE_KEY -n -f $USER_NAME@$REMOTEHOST "sed -i 's/#maxRetry = 2/maxRetry = 1/g' $REMOTE_GATLING_CONF"
-ssh -i $LOCAL_PRIVATE_KEY -n -f $USER_NAME@$REMOTEHOST "sed -i 's/#requestTimeout = 60000/requestTimeout = 2000/g' $REMOTE_GATLING_CONF"
+ssh -i $LOCAL_PRIVATE_KEY -n -f $USER_NAME@$REMOTEHOST "sed -i 's/-Xmx1G/-Xms$GATLING_MEMORY -Xmx$GATLING_MEMORY/g' $REMOTE_GATLING_RUNNER"
+ssh -i $LOCAL_PRIVATE_KEY -n -f $USER_NAME@$REMOTEHOST "sed -i 's/#lowerBound = 800/lowerBound = $GATLING_REQ_LOWER_BOUND/g' $REMOTE_GATLING_CONF"
+ssh -i $LOCAL_PRIVATE_KEY -n -f $USER_NAME@$REMOTEHOST "sed -i 's/#higherBound = 1200/higherBound = $GATLING_REQ_HIGHER_BOUND/g' $REMOTE_GATLING_CONF"
+ssh -i $LOCAL_PRIVATE_KEY -n -f $USER_NAME@$REMOTEHOST "sed -i 's/#enableGA = true/enableGA = $GATLING_ENABLE_GA/g' $REMOTE_GATLING_CONF"
+#ssh -i $LOCAL_PRIVATE_KEY -n -f $USER_NAME@$REMOTEHOST "sed -i 's/#maxRetry = 2/maxRetry = $GATLING_MAX_RETRY/g' $REMOTE_GATLING_CONF"
+ssh -i $LOCAL_PRIVATE_KEY -n -f $USER_NAME@$REMOTEHOST "sed -i 's/#requestTimeout = 60000/requestTimeout = $GATLING_REQ_TIMEOUT/g' $REMOTE_GATLING_CONF"
 
 ssh -i $LOCAL_PRIVATE_KEY -n -f $USER_NAME@$REMOTEHOST "$REMOTE_GATLING_RUNNER -ro reports"
 

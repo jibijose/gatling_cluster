@@ -14,6 +14,15 @@ then
 fi
 SIMULATION_NAME=$2
 
+########################################################################################################
+GATLING_MEMORY=4G
+GATLING_REQ_LOWER_BOUND=500
+GATLING_REQ_HIGHER_BOUND=1000
+GATLING_ENABLE_GA=false
+GATLING_MAX_RETRY=1
+GATLING_REQ_TIMEOUT=2000
+########################################################################################################
+
 #Assuming same user name for all hosts
 USER_NAME='ubuntu'
 SIMULATION_NAME_ORIGINAL='$SIMULATION_NAME'_original
@@ -53,6 +62,7 @@ LOCAL_GATLING_HOME=$LOCAL_RUN_DIR/$GATLING_HOME_DIR_NAME
 LOCAL_GATLING_ZIP=$LOCAL_RUN_DIR/$GATLING_ZIP
 LOCAL_REPORT_DIR=$LOCAL_GATLING_HOME/results/
 LOCAL_GATLING_RUNNER=$LOCAL_GATLING_HOME/bin/gatling.sh
+LOCAL_GATLING_CONF=$LOCAL_GATLING_HOME/conf/gatling.conf
 LOCAL_PRIVATE_KEY=$LOCAL_RUN_DIR/$CLOUD/ssh_keys/id_rsa
 LOCAL_PUBLIC_KEY=$LOCAL_RUN_DIR/$CLOUD/ssh_keys/id_rsa.pub
 
