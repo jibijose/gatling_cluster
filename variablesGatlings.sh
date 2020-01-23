@@ -41,6 +41,7 @@ GATLING_ZIP=gatling-charts-highcharts-bundle-3.3.1-bundle.zip
 GATLING_HOME_DIR_NAME=gatling-charts-highcharts-bundle-3.3.1
 GATLING_HOME=$RUN_HOME/$GATLING_HOME_DIR_NAME
 GATLING_SIMULATIONS_DIR=$GATLING_HOME/user-files/simulations
+GATLING_RESOURCES_DIR=$GATLING_HOME/user-files/resources
 GATLING_RUNNER=$GATLING_HOME/bin/gatling.sh
 GATLING_CONF=$GATLING_HOME/conf/gatling.conf
 GATLING_REPORT_DIR=$GATLING_HOME/results/
