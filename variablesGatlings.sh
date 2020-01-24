@@ -20,7 +20,7 @@ GATLING_REQ_LOWER_BOUND=500
 GATLING_REQ_HIGHER_BOUND=1000
 GATLING_ENABLE_GA=false
 GATLING_MAX_RETRY=1
-GATLING_REQ_TIMEOUT=2000
+GATLING_REQ_TIMEOUT=10000
 ########################################################################################################
 
 #Assuming same user name for all hosts
