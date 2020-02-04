@@ -20,7 +20,7 @@ sed -i {} "s/-Xmx1G/-Xms$GATLING_MEMORY -Xmx$GATLING_MEMORY/g" $LOCAL_GATLING_RU
 sed -i {} "s/#lowerBound = 800/lowerBound = $GATLING_REQ_LOWER_BOUND/g" $LOCAL_GATLING_CONF
 sed -i {} "s/#higherBound = 1200/higherBound = $GATLING_REQ_HIGHER_BOUND/g" $LOCAL_GATLING_CONF
 sed -i {} "s/#enableGA = true/enableGA = $GATLING_ENABLE_GA/g" $LOCAL_GATLING_CONF
-#sed -i {} "s/#maxRetry = 2/maxRetry = $GATLING_MAX_RETRY/g" $LOCAL_GATLING_CONF
+sed -i {} "s/#maxRetry = 2/maxRetry = $GATLING_MAX_RETRY/g" $LOCAL_GATLING_CONF
 sed -i {} "s/#requestTimeout = 60000/requestTimeout = $GATLING_REQ_TIMEOUT/g" $LOCAL_GATLING_CONF
 
 echo "### `date` Collecting simulation logs"

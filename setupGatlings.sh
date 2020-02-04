@@ -33,6 +33,6 @@ do
   ssh -i $LOCAL_PRIVATE_KEY -n -f $USER_NAME@$HOST "sed -i 's/#lowerBound = 800/lowerBound = $GATLING_REQ_LOWER_BOUND/g' $GATLING_CONF"
   ssh -i $LOCAL_PRIVATE_KEY -n -f $USER_NAME@$HOST "sed -i 's/#higherBound = 1200/higherBound = $GATLING_REQ_HIGHER_BOUND/g' $GATLING_CONF"
   ssh -i $LOCAL_PRIVATE_KEY -n -f $USER_NAME@$HOST "sed -i 's/#enableGA = true/enableGA = $GATLING_ENABLE_GA/g' $GATLING_CONF"
-  #ssh -i $LOCAL_PRIVATE_KEY -n -f $USER_NAME@$HOST "sed -i 's/#maxRetry = 2/maxRetry = $GATLING_MAX_RETRY/g' $GATLING_CONF"
+  ssh -i $LOCAL_PRIVATE_KEY -n -f $USER_NAME@$HOST "sed -i 's/#maxRetry = 2/maxRetry = $GATLING_MAX_RETRY/g' $GATLING_CONF"
   ssh -i $LOCAL_PRIVATE_KEY -n -f $USER_NAME@$HOST "sed -i 's/#requestTimeout = 60000/requestTimeout = $GATLING_REQ_TIMEOUT/g' $GATLING_CONF"
 done

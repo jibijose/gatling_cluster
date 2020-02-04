@@ -15,12 +15,12 @@ echo "*********************************************** Ulimit values ************
 ulimit -a
 
 echo "Local setup "
-cp -rf $SIMULATION_NAME/AzureCosBlue.scala $GATLING_HOME_DIR_NAME/user-files/simulations/
-cp -rf $SIMULATION_NAME/*.json $GATLING_HOME_DIR_NAME/user-files/resources/
+cp -rf $SIMULATION_NAME/$SIMULATION_NAME*.scala $GATLING_HOME_DIR_NAME/user-files/simulations/
+cp -rf $SIMULATION_NAME/$SIMULATION_NAME*.json $GATLING_HOME_DIR_NAME/user-files/resources/
 rm -rf $GATLING_HOME_DIR_NAME/results/*
 
 echo "******************************************************************************************************************"
 echo "*********************************************** Gatling execution ************************************************"
-JAVA_OPTS="-Xms4096m -Xmx4096m"  $GATLING_HOME_DIR_NAME/bin/gatling.sh -s AzureCosBlue
+JAVA_OPTS="-Xms4096m -Xmx4096m"  $GATLING_HOME_DIR_NAME/bin/gatling.sh -s $SIMULATION_NAME
 
 echo "Local execution completed"

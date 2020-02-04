@@ -47,7 +47,7 @@ ssh -i $LOCAL_PRIVATE_KEY -n -f $USER_NAME@$REMOTEHOST "sed -i 's/-Xmx1G/-Xms$GA
 ssh -i $LOCAL_PRIVATE_KEY -n -f $USER_NAME@$REMOTEHOST "sed -i 's/#lowerBound = 800/lowerBound = $GATLING_REQ_LOWER_BOUND/g' $REMOTE_GATLING_CONF"
 ssh -i $LOCAL_PRIVATE_KEY -n -f $USER_NAME@$REMOTEHOST "sed -i 's/#higherBound = 1200/higherBound = $GATLING_REQ_HIGHER_BOUND/g' $REMOTE_GATLING_CONF"
 ssh -i $LOCAL_PRIVATE_KEY -n -f $USER_NAME@$REMOTEHOST "sed -i 's/#enableGA = true/enableGA = $GATLING_ENABLE_GA/g' $REMOTE_GATLING_CONF"
-#ssh -i $LOCAL_PRIVATE_KEY -n -f $USER_NAME@$REMOTEHOST "sed -i 's/#maxRetry = 2/maxRetry = $GATLING_MAX_RETRY/g' $REMOTE_GATLING_CONF"
+ssh -i $LOCAL_PRIVATE_KEY -n -f $USER_NAME@$REMOTEHOST "sed -i 's/#maxRetry = 2/maxRetry = $GATLING_MAX_RETRY/g' $REMOTE_GATLING_CONF"
 ssh -i $LOCAL_PRIVATE_KEY -n -f $USER_NAME@$REMOTEHOST "sed -i 's/#requestTimeout = 60000/requestTimeout = $GATLING_REQ_TIMEOUT/g' $REMOTE_GATLING_CONF"
 
 ssh -i $LOCAL_PRIVATE_KEY -n -f $USER_NAME@$REMOTEHOST "$REMOTE_GATLING_RUNNER -ro reports"
