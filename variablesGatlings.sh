@@ -7,7 +7,7 @@ then
 fi
 
 CLOUD=$1
-if [ $CLOUD != 'aws' ] && [ $CLOUD != 'azure' ]
+if [ $CLOUD != 'aws' ] && [ $CLOUD != 'azure' ] && [ $CLOUD != 'local' ]
 then
   echo "Cloud value must be 'aws' or 'azure'"
   exit
@@ -33,10 +33,12 @@ echo "Getting hosts from $CLOUD"
 if [ $CLOUD == 'aws' ]
 then
   HOSTSLIST=`aws ec2 describe-instances --filters "Name=tag:Name,Values=gatling-cluster-*-vm" --query "Reservations[].Instances[].PublicIpAddress"  --output text`
-else
+elseif [ $CLOUD == 'aws' ]
   azure_gatling_rg=`az resource list --tag 'environment=gatling_test' --query "[0].resourceGroup" -o tsv`
   HOSTSLIST=`az vm list --resource-group "$azure_gatling_rg" --show-details --query "[].privateIps" --o tsv | xargs | sed -e 's/ / /g'`
   #HOSTSLIST=10.118.23.146
+else
+  HOSTSLIST="127.0.0.1"
 fi
 HOSTS=($HOSTSLIST)
 echo "### `date` Running gatling on [$HOSTSLIST]"

@@ -11,27 +11,8 @@ VM provisioning is also automated for aws and azure. It creates VMs on cloud, an
 If you want to provision aws VMs for gatling cluster then please follow this [AWS VMs](aws/README.md)   
 If you want to provision azure VMs for gatling cluster then please follow this [Azure VMs](azure/README.md)   
 
-## Simulate Gatlings
-Fully automated simulation can be done by running simulateGatlings.sh. It performs all below tasks. Please refer to below verbose outputs for individual task runs.   
-```
-$simulateGatlings.sh aws HttpBinSimulation
-******************************************************************************************************************
-*********************************************** Gatling Simulation Started ***************************************
-***More verbose logs***
-******************************************************************************************************************
-*********************************************** Gatling Simulation Success ***************************************
-```
-
-#Global run variables
-```
-$variablesGatlings.sh aws HttpBinSimulation
-******************************************************************************************************************
-*********************************************** Variable Setup ***************************************************
-Getting hosts from aws
-### Wed Dec  4 11:01:08 IST 2019 Running gatling on [34.240.12.47	34.245.116.223	34.250.121.63]
-```
-
-#Setup local
+#Setup and tune local gatling
+This local gatling is needed if you plan to run gatling locally or if you want to generate or view reports locally.  
 ```
 $setupLocal.sh
 ******************************************************************************************************************
@@ -72,6 +53,12 @@ network_interface_private_ip = [
   "34.250.121.63",
 ]
 ```
+
+#Tune remote gatling VMs
+If gatling VMs are provisioned in cloud (aws/azure) then we should tune VMs for better performance while running gatling on those. This needs to be executed only once immediately after provisioning VMs on cloud.
+```
+```
+
 # Setup, Start, Stop, Results user flow.
 ![Gatling cluster life cycle](docs/gatling_cluster_lifecycle.png)
 
@@ -126,7 +113,15 @@ Wed Dec  4 11:06:53 IST 2019 Hosts in progress 34.250.121.63
 All host runs completed
 ```
 
-#Stop remote java's
+#Stream gatling run log from any remote VM (optional)
+This command allows us to see the progress of gatling runs from any remote VM. If it going bad you may use this command and decide whether to continue load or not.
+```
+### $CLOUD is either aws or azure
+$ssh -i $CLOUD/ssh_keys/id_rsa "tail -f gatling_run_dir/run.log"  
+```
+
+#Stop remote java's (optional)
+If $waitGatlings.sh has executed and completed then there is no need to run this because it means all remote gatlings are completed. This is useful when you realize your load test has failed and you no more want to continue putting load on api.
 ```
 $stopGatlings.sh aws HttpBinSimulation
 ******************************************************************************************************************
@@ -137,9 +132,46 @@ Getting hosts from aws
 ***More verbose logs***
 ```
 
-#Collect, aggregate and display gatling report
+#Collect, aggregate and display gatling report using remote gatling
 ```
-$resultGatlings.sh aws HttpBinSimulation
+$reportWithRemoteGatling.sh aws HttpBinSimulation
+******************************************************************************************************************
+*********************************************** Gatling Result ***************************************************
+Getting hosts from aws
+### Wed Dec  4 11:07:02 IST 2019 Running gatling on [34.240.12.47	34.245.116.223	34.250.121.63]
+### Wed Dec  4 11:07:02 IST 2019 Collecting simulation logs
+***More verbose logs***                                                                                                                                                                                         100%  256KB 326.8KB/s   00:00    
+### Wed Dec  4 11:07:19 IST 2019 Aggregating simulations
+***More verbose logs***
+Generating reports...
+
+================================================================================
+---- Global Information --------------------------------------------------------
+> request count                                       3442 (OK=3442   KO=0     )
+> min response time                                    768 (OK=768    KO=-     )
+> max response time                                   1039 (OK=1039   KO=-     )
+> mean response time                                   790 (OK=790    KO=-     )
+> std deviation                                         21 (OK=21     KO=-     )
+> response time 50th percentile                        786 (OK=786    KO=-     )
+> response time 75th percentile                        800 (OK=800    KO=-     )
+> response time 95th percentile                        812 (OK=812    KO=-     )
+> response time 99th percentile                        884 (OK=884    KO=-     )
+> mean requests/sec                                 25.687 (OK=25.687 KO=-     )
+---- Response Time Distribution ------------------------------------------------
+> t < 800 ms                                          2470 ( 72%)
+> 800 ms < t < 1200 ms                                 972 ( 28%)
+> t > 1200 ms                                            0 (  0%)
+> failed                                                 0 (  0%)
+================================================================================
+
+Reports generated in 0s.
+Please open the following file: /$LOCAL_DIR/gatling_cluster/gatling-charts-highcharts-bundle-3.3.1/results/reports/index.html
+### Wed Dec  4 11:07:30 IST 2019 Displaying report on browser
+```
+
+#Collect, aggregate and display gatling report using local gatling
+```
+$reportWithLocalGatling.sh aws HttpBinSimulation
 ******************************************************************************************************************
 *********************************************** Gatling Result ***************************************************
 Getting hosts from aws
