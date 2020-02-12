@@ -67,8 +67,8 @@ Run terraform apply to create VMs on aws.
 ```
 $terraform apply -var "my_public_ip=`curl ifconfig.me`" 
 $terraform apply -var "my_public_ip=`curl ifconfig.me`"  -auto-approve
-$terraform apply -var "location=eu-west-1" -var "vpc_cidr=10.0.0.0/16" -var "subnet_cidr=10.0.2.0/24" -var "vmsize=c4.xlarge" -var "vmcount=3" -var "my_public_ip=`curl ifconfig.me`" 
-$terraform apply -var "location=eu-west-1" -var "vpc_cidr=10.0.0.0/16" -var "subnet_cidr=10.0.2.0/24" -var "vmsize=c4.xlarge" -var "vmcount=3" -var "my_public_ip=`curl ifconfig.me`" -auto-approve
+$terraform apply -var "location=eu-west-1" -var "vpc_cidr=10.0.0.0/16" -var "subnet_cidr=10.0.2.0/24" -var "vmsize=c4.xlarge" -var "vmcount=3" -var "my_public_ip=`curl ifconfig.me`" -var "simulationclass=HttpBinSimulation" 
+$terraform apply -var "location=eu-west-1" -var "vpc_cidr=10.0.0.0/16" -var "subnet_cidr=10.0.2.0/24" -var "vmsize=c4.xlarge" -var "vmcount=3" -var "my_public_ip=`curl ifconfig.me`" -var "simulationclass=HttpBinSimulation" -auto-approve
 ```
 You may keep on appending variables like shown above or you can change variables.tf file as shown above.    
 Additionally you add flag '-auto-approve' to execute terraform without manual confirmation   
@@ -79,6 +79,6 @@ Additionally you add flag '-auto-approve' to execute terraform without manual co
 ```
 $terraform destroy -var "my_public_ip=`curl ifconfig.me`" 
 $terraform destroy -var "my_public_ip=`curl ifconfig.me`"  -auto-approve
-$terraform destroy -var "location=eu-west-1" -var "vpc_cidr=10.0.0.0/16" -var "subnet_cidr=10.0.2.0/24" -var "vmsize=c4.xlarge" -var "vmcount=3" -var "my_public_ip=`curl ifconfig.me`" 
-$terraform destroy -var "location=eu-west-1" -var "vpc_cidr=10.0.0.0/16" -var "subnet_cidr=10.0.2.0/24" -var "vmsize=c4.xlarge" -var "vmcount=3" -var "my_public_ip=`curl ifconfig.me`" -auto-approve
+$terraform destroy -var "location=eu-west-1" -var "vpc_cidr=10.0.0.0/16" -var "subnet_cidr=10.0.2.0/24" -var "vmsize=c4.xlarge" -var "vmcount=3" -var "my_public_ip=`curl ifconfig.me`" -var "simulationclass=HttpBinSimulation"
+$terraform destroy -var "location=eu-west-1" -var "vpc_cidr=10.0.0.0/16" -var "subnet_cidr=10.0.2.0/24" -var "vmsize=c4.xlarge" -var "vmcount=3" -var "my_public_ip=`curl ifconfig.me`" -var "simulationclass=HttpBinSimulation" -auto-approve
 ```
