@@ -31,13 +31,13 @@ data "aws_ami" "linux" {
 }
 
 resource "aws_key_pair" "kp" {
-  key_name   = "gatling_cluster_key"
-  public_key = file("./ssh_keys/id_rsa.pub")
+  key_name   = "gatling_cluster_${var.simulationclass}_key"
+  public_key = file("./ssh_keys/${var.simulationclass}/id_rsa.pub")
 }
 
 resource "aws_security_group" "sg" {
-    name        = "gatling-cluster-sg"
-    description = "Gatling cluster security group"
+    name        = "gatling-cluster-${var.simulationclass}-sg"
+    description = "Gatling cluster ${var.simulationclass} security group"
     vpc_id = data.aws_vpc.default.id
     ingress {
       from_port = 22
@@ -67,7 +67,7 @@ resource "aws_instance" "vm" {
 
   tags = {
     environment = "gatling_test"
-    Name = "gatling-cluster-${count.index}-vm"
+    Name = "gatling-cluster-${var.simulationclass}-${count.index}-vm"
   }
 }
 
@@ -82,7 +82,7 @@ resource "null_resource" "vminit" {
     type = "ssh"
     host = element(aws_instance.vm.*.public_ip, count.index)
     user = "ubuntu"
-    private_key = file("./ssh_keys/id_rsa")
+    private_key = file("./ssh_keys/${var.simulationclass}/id_rsa")
     agent = false
   }
 

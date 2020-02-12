@@ -32,8 +32,9 @@ DOWNLOAD_TIME=10
 echo "Getting hosts from $CLOUD"
 if [ $CLOUD == 'aws' ]
 then
-  HOSTSLIST=`aws ec2 describe-instances --filters "Name=tag:Name,Values=gatling-cluster-*-vm" --query "Reservations[].Instances[].PublicIpAddress"  --output text`
-elseif [ $CLOUD == 'aws' ]
+  HOSTSLIST=`aws ec2 describe-instances --filters "Name=tag:Name,Values=gatling-cluster-$SIMULATION_NAME-*-vm" --query "Reservations[].Instances[].PublicIpAddress"  --output text`
+elif [ $CLOUD == 'azure' ]
+then
   azure_gatling_rg=`az resource list --tag 'environment=gatling_test' --query "[0].resourceGroup" -o tsv`
   HOSTSLIST=`az vm list --resource-group "$azure_gatling_rg" --show-details --query "[].privateIps" --o tsv | xargs | sed -e 's/ / /g'`
   #HOSTSLIST=10.118.23.146

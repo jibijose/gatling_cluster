@@ -27,3 +27,7 @@ variable "vmcount" {
 variable "my_public_ip" {
   description = "Public Ip"
 }
+
+variable "simulationclass" {
+  description = "Simulation"
+}
