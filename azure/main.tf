@@ -20,21 +20,30 @@ resource "tls_private_key" "key" {
 resource "null_resource" "save-key" {
   provisioner "local-exec" {
     command = <<EOF
-      echo "Copying ssh keys into ${path.cwd}/ssh_keys"
-      mkdir -p ${path.cwd}/ssh_keys
-      echo "${tls_private_key.key.private_key_pem}" > ${path.cwd}/ssh_keys/id_rsa
-      echo "${tls_private_key.key.public_key_openssh}" > ${path.cwd}/ssh_keys/id_rsa.pub
-      chmod 0600 ${path.cwd}/ssh_keys/id_rsa
-      chmod 0600 ${path.cwd}/ssh_keys/id_rsa.pub
+      echo "Copying ssh keys into ${path.cwd}/ssh_keys/${var.simulationclass}"
+      mkdir -p ${path.cwd}/ssh_keys/${var.simulationclass}
+      echo "${tls_private_key.key.private_key_pem}" > ${path.cwd}/ssh_keys/${var.simulationclass}/id_rsa
+      echo "${tls_private_key.key.public_key_openssh}" > ${path.cwd}/ssh_keys/${var.simulationclass}/id_rsa.pub
+      chmod 0600 ${path.cwd}/ssh_keys/${var.simulationclass}/id_rsa
+      chmod 0600 ${path.cwd}/ssh_keys/${var.simulationclass}/id_rsa.pub
 EOF
+  }
+}
+
+resource "azurerm_resource_group" "example" {
+  name     = "${var.name_prefix}-${var.simulationclass}-rg"
+  location = var.location
+
+  tags = {
+    environment = "gatling_test_${var.simulationclass}"
   }
 }
 
 resource "azurerm_network_interface" "nic" {
   count                 = var.vmcount
-  name                      = "${var.name_prefix}-${count.index}-vm-nic"
+  name                      = "${var.name_prefix}-${var.simulationclass}-vm-nic${count.index}"
   location                  = var.location
-  resource_group_name       = var.resource_group_name
+  resource_group_name       = azurerm_resource_group.example.name
 
   ip_configuration {
     name                          = "internal"
@@ -43,16 +52,16 @@ resource "azurerm_network_interface" "nic" {
   }
 
   tags = {
-    environment =  "gatling_test"
-    Name = "gatling-cluster-${count.index}-vm-nic"
+    environment =  "gatling_test_${var.simulationclass}"
+    Name = "gatling-cluster-${var.simulationclass}-vm-nic${count.index}"
   }
 }
 
 resource "azurerm_virtual_machine" "vm" {
   count                 = var.vmcount
-  name                  = "${var.name_prefix}-${count.index}-vm"
+  name                  = "${var.name_prefix}-${var.simulationclass}-vm${count.index}"
   location              = var.location
-  resource_group_name   = var.resource_group_name
+  resource_group_name   = azurerm_resource_group.example.name
   network_interface_ids = ["${element(azurerm_network_interface.nic.*.id, count.index)}"]
   vm_size               = var.vmsize
   delete_data_disks_on_termination = true
@@ -66,14 +75,14 @@ resource "azurerm_virtual_machine" "vm" {
   }
 
   storage_os_disk {
-    name              = "${var.name_prefix}-${count.index}-vm-osdisk"
+    name              = "${var.name_prefix}-${var.simulationclass}-vm-osdisk${count.index}"
     managed_disk_type = "Standard_LRS"
     caching           = "ReadWrite"
     create_option     = "FromImage"
   }
 
   os_profile {
-    computer_name  = "${var.name_prefix}-${count.index}-vm"
+    computer_name  = "${var.name_prefix}-${var.simulationclass}-vm${count.index}"
     admin_username = "ubuntu"
   }
 
@@ -102,7 +111,7 @@ resource "azurerm_virtual_machine" "vm" {
   }
 
   tags = {
-    environment = "gatling_test"
-    Name = "gatling-cluster-${count.index}-vm"
+    environment = "gatling_test_${var.simulationclass}"
+    Name = "gatling-cluster-${var.simulationclass}-vm${count.index}"
   }
 }

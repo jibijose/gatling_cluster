@@ -35,15 +35,14 @@ then
   HOSTSLIST=`aws ec2 describe-instances --filters "Name=tag:Name,Values=gatling-cluster-$SIMULATION_NAME-*-vm" --query "Reservations[].Instances[].PublicIpAddress"  --output text`
 elif [ $CLOUD == 'azure' ]
 then
-  azure_gatling_rg=`az resource list --tag 'environment=gatling_test' --query "[0].resourceGroup" -o tsv`
+  azure_gatling_rg=`az resource list --tag "environment=gatling_test_$SIMULATION_NAME" --query "[0].resourceGroup" -o tsv`
   HOSTSLIST=`az vm list --resource-group "$azure_gatling_rg" --show-details --query "[].privateIps" --o tsv | xargs | sed -e 's/ / /g'`
-  #HOSTSLIST=10.118.23.146
 else
   HOSTSLIST="127.0.0.1"
 fi
 HOSTS=($HOSTSLIST)
 echo "### `date` Running gatling on [$HOSTSLIST]"
-
+exit
 #Assuming all Gatling installation in same path (with write permissions)
 RUN_HOME=/home/$USER_NAME/gatling_run_dir
 LOCAL_RUN_DIR=`pwd`

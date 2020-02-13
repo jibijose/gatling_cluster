@@ -2,10 +2,6 @@ variable "name_prefix" {
   description = "Azure name prefix"
 }
 
-variable "resource_group_name" {
-  description = "Resource group"
-}
-
 variable "location" {
   description = "Azure location"
   default     = "westeurope"
@@ -31,4 +27,8 @@ variable "vnet_name" {
 
 variable "vnet_rg" {
   description = "Azure net resource group"
+}
+
+variable "simulationclass" {
+  description = "Simulation"
 }

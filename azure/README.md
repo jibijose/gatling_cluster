@@ -74,8 +74,8 @@ Run terraform apply to create VMs on Azure.
 ```
 $terraform apply
 $terraform apply -auto-approve
-$terraform apply -var "name_prefix=euw-gatling" -var "resource_group_name=euw-gatling-rg" -var "location=westeurope" -var "vmsize=Standard_D2_v2" -var "vmcount=3" -var "subnet_name=euw-gatling-sn" -var "vnet_name=euw-gatling-vn" -var "vnet_rg=euw-gatling-rg"
-$terraform apply -var "name_prefix=euw-gatling" -var "resource_group_name=euw-gatling-rg" -var "location=westeurope" -var "vmsize=Standard_D2_v2" -var "vmcount=3" -var "subnet_name=euw-gatling-sn" -var "vnet_name=euw-gatling-vn" -var "vnet_rg=euw-gatling-rg" -auto-approve
+$terraform apply -var "name_prefix=euw-gatling" -var "location=westeurope" -var "vmsize=Standard_D2_v2" -var "vmcount=3" -var "subnet_name=euw-gatling-sn" -var "vnet_name=euw-gatling-vn" -var "vnet_rg=euw-gatling-rg" -var "simulationclass=HttpBinSimulation"
+$terraform apply -var "name_prefix=euw-gatling" -var "location=westeurope" -var "vmsize=Standard_D2_v2" -var "vmcount=3" -var "subnet_name=euw-gatling-sn" -var "vnet_name=euw-gatling-vn" -var "vnet_rg=euw-gatling-rg" -var "simulationclass=HttpBinSimulation" -auto-approve
 ```
 You may keep on appending variables like shown above or you can change variables.tf file as shown above.    
 Additionally you add flag '-auto-approve' to execute terraform without manual confirmation   
@@ -85,6 +85,6 @@ Additionally you add flag '-auto-approve' to execute terraform without manual co
 ```
 $terraform destroy
 $terraform destroy -auto-approve
-$terraform destroy -var "name_prefix=euw-gatling" -var "resource_group_name=euw-gatling-rg" -var "location=westeurope" -var "vmsize=Standard_D2_v2" -var "vmcount=3" -var "subnet_name=euw-gatling-sn" -var "vnet_name=euw-gatling-vn" -var "vnet_rg=euw-gatling-rg"
-$terraform destroy -var "name_prefix=euw-gatling" -var "resource_group_name=euw-gatling-rg" -var "location=westeurope" -var "vmsize=Standard_D2_v2" -var "vmcount=3" -var "subnet_name=euw-gatling-sn" -var "vnet_name=euw-gatling-vn" -var "vnet_rg=euw-gatling-rg" -auto-approve
+$terraform destroy -var "name_prefix=euw-gatling" -var "location=westeurope" -var "vmsize=Standard_D2_v2" -var "vmcount=3" -var "subnet_name=euw-gatling-sn" -var "vnet_name=euw-gatling-vn" -var "vnet_rg=euw-gatling-rg" -var "simulationclass=HttpBinSimulation"
+$terraform destroy -var "name_prefix=euw-gatling" -var "location=westeurope" -var "vmsize=Standard_D2_v2" -var "vmcount=3" -var "subnet_name=euw-gatling-sn" -var "vnet_name=euw-gatling-vn" -var "vnet_rg=euw-gatling-rg" -var "simulationclass=HttpBinSimulation" -auto-approve
 ```

@@ -12,7 +12,8 @@ gatling-charts-highcharts-bundle-3.3.1-bundle.zip
 gatling-charts-highcharts-bundle-3.3.1/*
 
 reports/*
-EsAzure/EsAzure*.*
+**/EsAzure/EsAzure*.*
 **/AzureCosBlue/AzureCosBlue*.*
+**/FalconApiGee/FalconApiGee*.*
 
 *.yaml
