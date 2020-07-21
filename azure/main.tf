@@ -1,15 +1,7 @@
-terraform {
-  required_version = ">= 0.12.18"
-}
-
-provider "azurerm" {
-  version = ">=1.36.0"
-}
-
 data "azurerm_subnet" "test_subnet" {
-  name                 = "${var.subnet_name}"
-  virtual_network_name = "${var.vnet_name}"
-  resource_group_name  = "${var.vnet_rg}"
+  name                 = var.subnet_name
+  virtual_network_name = var.vnet_name
+  resource_group_name  = var.vnet_rg
 }
 
 resource "tls_private_key" "key" {
@@ -62,7 +54,7 @@ resource "azurerm_virtual_machine" "vm" {
   name                  = "${var.name_prefix}-${var.simulationclass}-vm${count.index}"
   location              = var.location
   resource_group_name   = azurerm_resource_group.example.name
-  network_interface_ids = ["${element(azurerm_network_interface.nic.*.id, count.index)}"]
+  network_interface_ids = [element(azurerm_network_interface.nic.*.id, count.index)]
   vm_size               = var.vmsize
   delete_data_disks_on_termination = true
   delete_os_disk_on_termination = true

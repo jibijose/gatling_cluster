@@ -1,0 +1,14 @@
+{
+    "orderId": "trn:company:order:storeuk:${randomOrderId}",
+    "customerId": "trn:company:uid:uuid:${randomCustomerId}",
+    "orderedDate": "${randomDate}T10:10:00+05:30",
+    "fulfilmentId": "fulfilled",
+    "orderedState": "closed",
+    "products": [
+        {
+            "productId": "trn:company:product:uuid:${randomProductId}",
+            "productDescription": "ProductDescription-${randomProductId}",
+            "productQty": "${randomQuantity}"
+        }
+    ]
+}
