@@ -26,6 +26,12 @@ resource "azurerm_resource_group" "example" {
   name     = "${var.name_prefix}-${var.simulationclass}-rg"
   location = var.location
 
+  lifecycle {
+    ignore_changes = [
+      tags
+    ]
+  }
+  
   tags = {
     environment = "gatling_test_${var.simulationclass}"
   }
@@ -41,6 +47,12 @@ resource "azurerm_network_interface" "nic" {
     name                          = "internal"
     subnet_id                     = data.azurerm_subnet.test_subnet.id
     private_ip_address_allocation = "Dynamic"
+  }
+
+  lifecycle {
+    ignore_changes = [
+      tags
+    ]
   }
 
   tags = {
@@ -99,6 +111,12 @@ resource "azurerm_virtual_machine" "vm" {
       "sudo apt update -qqqq",
       "sudo apt install openjdk-8-jdk --yes -qqqq",
       "sudo apt install unzip --yes -qqqq"
+    ]
+  }
+
+  lifecycle {
+    ignore_changes = [
+      tags
     ]
   }
 
