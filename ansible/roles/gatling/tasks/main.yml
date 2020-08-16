@@ -1,0 +1,8 @@
+---
+    - name: Install Java 1.8 and some basic dependencies
+      become: yes
+      yum:
+        name:
+          - unzip
+        state: present
+        autoclean: yes

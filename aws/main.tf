@@ -1,11 +1,3 @@
-terraform {
-  required_version = ">= 0.12.18"
-}
-
-provider "aws" {
-  region = var.location
-}
-
 data "aws_vpc" "default" {
   cidr_block = "${var.vpc_cidr}"
 }
@@ -64,6 +56,7 @@ resource "aws_instance" "vm" {
   security_groups = ["${aws_security_group.sg.id}"]
   subnet_id = data.aws_subnet.default.id
   key_name = aws_key_pair.kp.id
+  associate_public_ip_address=true
 
   tags = {
     environment = "gatling_test"
@@ -84,15 +77,6 @@ resource "null_resource" "vminit" {
     user = "ubuntu"
     private_key = file("./ssh_keys/${var.simulationclass}/id_rsa")
     agent = false
-  }
-
-  provisioner "remote-exec" {
-    inline = [
-      "sudo apt update -qqqq",
-      "sudo apt update -qqqq",
-      "sudo apt install openjdk-8-jdk --yes -qqqq",
-      "sudo apt install unzip --yes -qqqq"
-    ]
   }
 
 }
