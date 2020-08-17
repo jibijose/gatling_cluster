@@ -30,12 +30,15 @@
       cache_valid_time: 3600
       state: present
       autoclean: yes
-  - name: Create a directory if it does not exist
+  - name: Create new run directory
+    file:
+      path: "{{ RUN_HOME }}"
+      state: absent
     file:
       path: "{{ RUN_HOME }}"
       state: directory
       mode: '0755'
-  - name: Unarchive a file that needs to be downloaded (added in 2.0)
+  - name: Unarchive downloaded file
     unarchive:
       src: "{{ GATLING_DOWNLOAD_LINK }}"
       dest: "{{ RUN_HOME }}"
