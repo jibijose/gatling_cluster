@@ -1,4 +1,25 @@
 ---
+  - name: Make sure ulimit is set for user
+    lineinfile:
+      path: "{{HOME_DIR}}/.profile"
+      state: present
+      regexp: "echo ulimit -n {{ULIMITFILES}}"
+      line: "echo ulimit -n {{ULIMITFILES}}"
+  - name: Make sure system limits are set
+    blockinfile:
+      path: "/etc/security/limits.conf"
+      state: present
+      block: |
+        ubuntu          soft    memlock         unlimited
+        ubuntu          hard    memlock         unlimited
+        ubuntu          soft    nofile          {{ULIMITFILES}}
+        ubuntu          hard    nofile          {{ULIMITFILES}}
+        ubuntu          soft    nproc           {{ULIMITFILES}}
+        ubuntu          hard    nproc           {{ULIMITFILES}}
+      owner: root
+      group: root
+      mode: '0644'
+    become: yes
   - name: Install Java 1.8 and some basic dependencies
     become: yes
     apt:
@@ -9,7 +30,11 @@
       cache_valid_time: 3600
       state: present
       autoclean: yes
-  - name: Create a directory if it does not exist
+  - name: Delete run directory
+    file:
+      path: "{{RUN_HOME}}"
+      state: absent
+  - name: Create run directory
     file:
       path: "{{ RUN_HOME }}"
       state: directory
@@ -49,24 +74,21 @@
       path: "{{GATLING_CONF}}"
       regexp: "#requestTimeout = 60000"
       replace: "requestTimeout = {{GATLING_REQ_TIMEOUT}}"
-  - name: Make sure ulimit is set for user
-    lineinfile:
-      path: "{{HOME_DIR}}/.profile"
-      state: present
-      regexp: "echo ulimit -n {{ULIMITFILES}}"
-      line: "echo ulimit -n {{ULIMITFILES}}"
-  - name: Make sure system limits are set
-    blockinfile:
-      path: "/etc/security/limits.conf"
-      state: present
-      block: |
-        ubuntu          soft    memlock         unlimited
-        ubuntu          hard    memlock         unlimited
-        ubuntu          soft    nofile          {{ULIMITFILES}}
-        ubuntu          hard    nofile          {{ULIMITFILES}}
-        ubuntu          soft    nproc           {{ULIMITFILES}}
-        ubuntu          hard    nproc           {{ULIMITFILES}}
-      owner: root
-      group: root
-      mode: '0644'
-    become: yes
+  - name: Gatling scenario scala files
+    copy:
+      src: "{{item}}"
+      dest: "{{GATLING_SIMULATIONS_DIR}}"
+    with_fileglob:
+      - "{{playbook_dir}}/../{{SIMULATION_NAME}}/*.scala"
+  - name: Gatling scenario json files
+    copy:
+      src: "{{item}}"
+      dest: "{{GATLING_RESOURCES_DIR}}"
+    with_fileglob:
+      - "{{playbook_dir}}/../{{SIMULATION_NAME}}/*.json"
+  - name: Replace hostname in scenario files
+    replace:
+      path: "{{GATLING_SIMULATIONS_DIR}}/{{SIMULATION_NAME}}.scala"
+      regexp: "_namesuffix"
+      replace: "_{{inventory_hostname}}"
+  

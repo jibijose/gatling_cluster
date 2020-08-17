@@ -1,5 +1,7 @@
 USER_NAME: ubuntu
 ULIMITFILES: 64000
+SIMULATION_NAME: HttpBinSimulation
+CURRENT_DIR: /Users/jibijose/PROJECTS/GITHUB/gatling_vm_cluster
 
 
 HOME_DIR: "/home/{{USER_NAME}}"
@@ -8,6 +10,8 @@ RUN_HOME: "{{HOME_DIR}}/gatling_run_dir"
 GATLING_ZIP: gatling-charts-highcharts-bundle-3.3.1-bundle.zip
 GATLING_HOME_DIR_NAME: gatling-charts-highcharts-bundle-3.3.1
 GATLING_HOME: "{{RUN_HOME}}/{{GATLING_HOME_DIR_NAME}}"
+GATLING_SIMULATIONS_DIR: "{{GATLING_HOME}}/user-files/simulations"
+GATLING_RESOURCES_DIR: "{{GATLING_HOME}}/user-files/resources"
 GATLING_RUNNER: "{{GATLING_HOME}}/bin/gatling.sh"
 GATLING_CONF: "{{GATLING_HOME}}/conf/gatling.conf"
 GATLING_DOWNLOAD_LINK: https://repo1.maven.org/maven2/io/gatling/highcharts/gatling-charts-highcharts-bundle/3.3.1/gatling-charts-highcharts-bundle-3.3.1-bundle.zip
