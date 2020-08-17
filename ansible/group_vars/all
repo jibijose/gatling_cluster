@@ -1,0 +1,18 @@
+USER_NAME: ubuntu
+RUN_HOME: "/home/{{USER_NAME}}/gatling_run_dir"
+
+GATLING_ZIP: gatling-charts-highcharts-bundle-3.3.1-bundle.zip
+GATLING_HOME_DIR_NAME: gatling-charts-highcharts-bundle-3.3.1
+GATLING_HOME: "{{RUN_HOME}}/{{GATLING_HOME_DIR_NAME}}"
+GATLING_RUNNER: "{{GATLING_HOME}}/bin/gatling.sh"
+GATLING_CONF: "{{GATLING_HOME}}/conf/gatling.conf"
+GATLING_DOWNLOAD_LINK: https://repo1.maven.org/maven2/io/gatling/highcharts/gatling-charts-highcharts-bundle/3.3.1/gatling-charts-highcharts-bundle-3.3.1-bundle.zip
+
+
+
+GATLING_MEMORY: 4G
+GATLING_REQ_LOWER_BOUND: 200
+GATLING_REQ_HIGHER_BOUND: 500
+GATLING_ENABLE_GA: false
+GATLING_MAX_RETRY: 0
+GATLING_REQ_TIMEOUT: 60000

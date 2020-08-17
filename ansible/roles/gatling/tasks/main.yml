@@ -1,8 +1,51 @@
 ---
-    - name: Install Java 1.8 and some basic dependencies
-      become: yes
-      yum:
-        name:
-          - unzip
-        state: present
-        autoclean: yes
+  - name: Install Java 1.8 and some basic dependencies
+    become: yes
+    apt:
+      name:
+        - unzip
+        - openjdk-8-jdk
+      update_cache: yes
+      cache_valid_time: 3600
+      state: present
+      autoclean: yes
+  - name: Create a directory if it does not exist
+    file:
+      path: "{{ RUN_HOME }}"
+      state: directory
+      mode: '0755'
+  - name: Unarchive a file that needs to be downloaded (added in 2.0)
+    unarchive:
+      src: "{{ GATLING_DOWNLOAD_LINK }}"
+      dest: "{{ RUN_HOME }}"
+      remote_src: yes
+  - name: Tuning gatling runner memory
+    replace:
+      path: "{{GATLING_RUNNER}}"
+      regexp: "-Xmx1G"
+      replace: "-Xms{{GATLING_MEMORY}} -Xmx{{GATLING_MEMORY}}"
+  - name: Tuning gatling configuration lower bound
+    replace:
+      path: "{{GATLING_CONF}}"
+      regexp: "#lowerBound = 800"
+      replace: "lowerBound = {{GATLING_REQ_LOWER_BOUND}}"
+  - name: Tuning gatling configuration higher bound
+    replace:
+      path: "{{GATLING_CONF}}"
+      regexp: "#higherBound = 1200"
+      replace: "higherBound = {{GATLING_REQ_HIGHER_BOUND}}"
+  - name: Tuning gatling configuration enabled GA
+    replace:
+      path: "{{GATLING_CONF}}"
+      regexp: "#enableGA = true"
+      replace: "enableGA = {{GATLING_ENABLE_GA}}"
+  - name: Tuning gatling configuration max retry
+    replace:
+      path: "{{GATLING_CONF}}"
+      regexp: "#maxRetry = 2"
+      replace: "maxRetry = {{GATLING_MAX_RETRY}}"
+  - name: Tuning gatling configuration request timeout
+    replace:
+      path: "{{GATLING_CONF}}"
+      regexp: "#requestTimeout = 60000"
+      replace: "requestTimeout = {{GATLING_REQ_TIMEOUT}}"
