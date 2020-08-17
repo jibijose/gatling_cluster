@@ -1,0 +1,9 @@
+---
+  - name: Execute gatling script
+    shell: "nohup {{GATLING_RUNNER}} -nr -s {{SIMULATION_NAME}} > {{RUN_HOME}}/run.log 2>&1 &"
+  - name: Pause for gatlings to start
+    pause:
+      seconds: 30
+  - name: Gatlings started
+    debug: 
+      msg: "Ansible started {{SIMULATION_NAME}} gatling simulation"

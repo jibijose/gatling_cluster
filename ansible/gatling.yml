@@ -4,5 +4,9 @@
     - hosts: all
     
       roles:
-        - gatling
+        - setup
+        - start
+        - wait
+        - stop
+
     

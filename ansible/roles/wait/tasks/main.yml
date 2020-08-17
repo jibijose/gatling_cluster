@@ -1,0 +1,8 @@
+---
+  - name: Wait until the string "Simulation {{SIMULATION_NAME}} completed" is in the file "{{RUN_HOME}}/run.log" before continuing
+    wait_for:
+      path: "{{RUN_HOME}}/run.log"
+      search_regex: "Simulation {{SIMULATION_NAME}} completed"
+  - name: Gatlings completed
+    debug: 
+      msg: "Ansible completed {{SIMULATION_NAME}} gatling simulation"

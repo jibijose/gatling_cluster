@@ -87,15 +87,3 @@
       path: "{{GATLING_SIMULATIONS_DIR}}/{{SIMULATION_NAME}}.scala"
       regexp: "_namesuffix"
       replace: "_{{inventory_hostname}}"
-  - name: Execute gatling script
-    shell: "nohup {{GATLING_RUNNER}} -nr -s {{SIMULATION_NAME}} > {{RUN_HOME}}/run.log 2>&1 &"
-  - name: Pause for gatlings to start
-    pause:
-      seconds: 30
-  - name: Wait until the string "Simulation {{SIMULATION_NAME}} completed" is in the file "{{RUN_HOME}}/run.log" before continuing
-    wait_for:
-      path: "{{RUN_HOME}}/run.log"
-      search_regex: "Simulation {{SIMULATION_NAME}} completed"
-  - name: Ansible completed
-    debug: 
-      msg: "Ansible completed {{SIMULATION_NAME}} simulation"
