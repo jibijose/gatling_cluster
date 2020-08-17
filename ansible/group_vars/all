@@ -1,5 +1,9 @@
 USER_NAME: ubuntu
-RUN_HOME: "/home/{{USER_NAME}}/gatling_run_dir"
+ULIMITFILES: 64000
+
+
+HOME_DIR: "/home/{{USER_NAME}}"
+RUN_HOME: "{{HOME_DIR}}/gatling_run_dir"
 
 GATLING_ZIP: gatling-charts-highcharts-bundle-3.3.1-bundle.zip
 GATLING_HOME_DIR_NAME: gatling-charts-highcharts-bundle-3.3.1

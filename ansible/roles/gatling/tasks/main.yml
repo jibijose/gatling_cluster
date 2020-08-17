@@ -49,3 +49,24 @@
       path: "{{GATLING_CONF}}"
       regexp: "#requestTimeout = 60000"
       replace: "requestTimeout = {{GATLING_REQ_TIMEOUT}}"
+  - name: Make sure ulimit is set for user
+    lineinfile:
+      path: "{{HOME_DIR}}/.profile"
+      state: present
+      regexp: "echo ulimit -n {{ULIMITFILES}}"
+      line: "echo ulimit -n {{ULIMITFILES}}"
+  - name: Make sure system limits are set
+    blockinfile:
+      path: "/etc/security/limits.conf"
+      state: present
+      block: |
+        ubuntu          soft    memlock         unlimited
+        ubuntu          hard    memlock         unlimited
+        ubuntu          soft    nofile          {{ULIMITFILES}}
+        ubuntu          hard    nofile          {{ULIMITFILES}}
+        ubuntu          soft    nproc           {{ULIMITFILES}}
+        ubuntu          hard    nproc           {{ULIMITFILES}}
+      owner: root
+      group: root
+      mode: '0644'
+    become: yes
