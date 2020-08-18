@@ -1,25 +1,22 @@
 ---
-  - name: Create new reports directory
+  - name: Removing reports directory and log files
     file:
       path: "{{GATHER_REPORTS_DIR}}"
       state: absent
     delegate_to: localhost
-  - name: Remove reports log files
-    file:
+  - file:
       path: "{{REMOTE_RESULT_DIR}}/reports/*.log"
       state: absent
-  - name: Create reports zip
+  - name: Creating, fetching and unarchiving reports zip
     archive:
       path: "{{REMOTE_RESULT_DIR}}/reports"
       dest: /tmp/reports.zip
       format: zip
-  - name: Fetching reports.zip
-    fetch:
+  - fetch:
       src: /tmp/reports.zip
       dest: "{{LOCAL_RUN_DIR}}/"
       flat: yes
-  - name: Unarchive downloaded file 
-    unarchive:
+  - unarchive:
       src: "{{LOCAL_RUN_DIR}}/reports.zip"
       dest: "{{LOCAL_RUN_DIR}}"
       remote_src: yes

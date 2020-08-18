@@ -15,3 +15,6 @@
     - name: Force kill stuck processes
       shell: "kill -9 {{item}}"
       with_items: "{{killed_processes.results | select('failed') | map(attribute='item') | list}}"
+    - name: Gatlings stopped
+      debug: 
+        msg: "Ansible stopped {{SIMULATION_NAME}} gatling simulation"

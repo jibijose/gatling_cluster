@@ -48,28 +48,24 @@
       path: "{{GATLING_RUNNER}}"
       regexp: "-Xmx1G"
       replace: "-Xms{{GATLING_MEMORY}} -Xmx{{GATLING_MEMORY}}"
-  - name: Tuning gatling configuration lower bound
+  - name: Tuning gatling configuration (lower bound, higher bound, enabled GA, max retry, request timeout)
     replace:
       path: "{{GATLING_CONF}}"
       regexp: "#lowerBound = 800"
       replace: "lowerBound = {{GATLING_REQ_LOWER_BOUND}}"
-  - name: Tuning gatling configuration higher bound
-    replace:
+  - replace:
       path: "{{GATLING_CONF}}"
       regexp: "#higherBound = 1200"
       replace: "higherBound = {{GATLING_REQ_HIGHER_BOUND}}"
-  - name: Tuning gatling configuration enabled GA
-    replace:
+  - replace:
       path: "{{GATLING_CONF}}"
       regexp: "#enableGA = true"
       replace: "enableGA = {{GATLING_ENABLE_GA}}"
-  - name: Tuning gatling configuration max retry
-    replace:
+  - replace:
       path: "{{GATLING_CONF}}"
       regexp: "#maxRetry = 2"
       replace: "maxRetry = {{GATLING_MAX_RETRY}}"
-  - name: Tuning gatling configuration request timeout
-    replace:
+  - replace:
       path: "{{GATLING_CONF}}"
       regexp: "#requestTimeout = 60000"
       replace: "requestTimeout = {{GATLING_REQ_TIMEOUT}}"
