@@ -1,16 +1,16 @@
 ---
 - name: Create new remote run directory
   file:
-    path: "{{ REMOTE_RUN_DIR }}"
+    path: "{{REMOTE_RUN_DIR}}"
     state: absent
 - file:
-    path: "{{ REMOTE_RUN_DIR }}"
+    path: "{{REMOTE_RUN_DIR}}"
     state: directory
     mode: '0755'
 - name: Unarchive remote downloaded file
   unarchive:
-    src: "{{ GATLING_DOWNLOAD_LINK }}"
-    dest: "{{ REMOTE_RUN_DIR }}"
+    src: "{{GATLING_DOWNLOAD_LINK}}"
+    dest: "{{REMOTE_RUN_DIR}}"
     remote_src: yes
 - name: Copy keys into host
   copy:

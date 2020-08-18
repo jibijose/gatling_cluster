@@ -3,15 +3,15 @@
       shell: "ps -ef | grep -v grep | grep -w java | awk '{print $2}'"
       register: running_processes
     - name: Kill running processes
-      shell: "kill {{ item }}"
-      with_items: "{{ running_processes.stdout_lines }}"
+      shell: "kill {{item}}"
+      with_items: "{{running_processes.stdout_lines}}"
     - name: Wait for
       wait_for:
-        path: "/proc/{{ item }}/status"
+        path: "/proc/{{item}}/status"
         state: absent
-      with_items: "{{ running_processes.stdout_lines }}"
+      with_items: "{{running_processes.stdout_lines}}"
       ignore_errors: yes
       register: killed_processes
     - name: Force kill stuck processes
-      shell: "kill -9 {{ item }}"
-      with_items: "{{ killed_processes.results | select('failed') | map(attribute='item') | list }}"
+      shell: "kill -9 {{item}}"
+      with_items: "{{killed_processes.results | select('failed') | map(attribute='item') | list}}"

@@ -32,16 +32,16 @@
       autoclean: yes
   - name: Create new run directory
     file:
-      path: "{{ RUN_HOME }}"
+      path: "{{RUN_HOME}}"
       state: absent
   - file:
-      path: "{{ RUN_HOME }}"
+      path: "{{RUN_HOME}}"
       state: directory
       mode: '0755'
   - name: Unarchive downloaded file
     unarchive:
-      src: "{{ GATLING_DOWNLOAD_LINK }}"
-      dest: "{{ RUN_HOME }}"
+      src: "{{GATLING_DOWNLOAD_LINK}}"
+      dest: "{{RUN_HOME}}"
       remote_src: yes
   - name: Tuning gatling runner memory
     replace:
