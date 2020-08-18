@@ -1,0 +1,41 @@
+---
+  - name: Move directory
+    command: "mv {{REMOTE_GATHER_REPORTS_DIR}} {{REMOTE_RESULT_DIR}}"
+  - name: Tuning gatling runner memory
+    replace:
+      path: "{{REMOTE_GATLING_RUNNER}}"
+      regexp: "-Xmx1G"
+      replace: "-Xms{{GATLING_MEMORY}} -Xmx{{GATLING_MEMORY}}"
+  - name: Tuning gatling configuration lower bound
+    replace:
+      path: "{{REMOTE_GATLING_CONF}}"
+      regexp: "#lowerBound = 800"
+      replace: "lowerBound = {{GATLING_REQ_LOWER_BOUND}}"
+  - name: Tuning gatling configuration higher bound
+    replace:
+      path: "{{REMOTE_GATLING_CONF}}"
+      regexp: "#higherBound = 1200"
+      replace: "higherBound = {{GATLING_REQ_HIGHER_BOUND}}"
+  - name: Tuning gatling configuration enabled GA
+    replace:
+      path: "{{REMOTE_GATLING_CONF}}"
+      regexp: "#enableGA = true"
+      replace: "enableGA = {{GATLING_ENABLE_GA}}"
+  - name: Tuning gatling configuration max retry
+    replace:
+      path: "{{REMOTE_GATLING_CONF}}"
+      regexp: "#maxRetry = 2"
+      replace: "maxRetry = {{GATLING_MAX_RETRY}}"
+  - name: Tuning gatling configuration request timeout
+    replace:
+      path: "{{REMOTE_GATLING_CONF}}"
+      regexp: "#requestTimeout = 60000"
+      replace: "requestTimeout = {{GATLING_REQ_TIMEOUT}}"
+  - name: Execute gatling script
+    shell: "{{REMOTE_GATLING_RUNNER}} -ro reports"
+  - name: Pause for gatlings to start
+    pause:
+      seconds: 30
+  - name: Gatlings started
+    debug: 
+      msg: "Ansible started {{SIMULATION_NAME}} gatling simulation"

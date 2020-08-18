@@ -12,7 +12,11 @@ gatling-charts-highcharts-bundle-3.3.1-bundle.zip
 gatling-charts-highcharts-bundle-3.3.1/*
 
 reports/*
+**/reports.tar
+**/reports.zip
 **/AzureCosBlue/AzureCosBlue*.*
 **/FalconApiGee/FalconApiGee*.*
 
 *.yaml
+
+ansible/hosts

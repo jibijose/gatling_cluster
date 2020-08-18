@@ -34,7 +34,7 @@
     file:
       path: "{{ RUN_HOME }}"
       state: absent
-    file:
+  - file:
       path: "{{ RUN_HOME }}"
       state: directory
       mode: '0755'

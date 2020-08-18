@@ -1,0 +1,32 @@
+---
+  - name: Create new reports directory
+    file:
+      path: "{{GATHER_REPORTS_DIR}}"
+      state: absent
+    delegate_to: localhost
+  - name: Remove reports log files
+    file:
+      path: "{{REMOTE_RESULT_DIR}}/reports/*.log"
+      state: absent
+  - name: Create reports zip
+    archive:
+      path: "{{REMOTE_RESULT_DIR}}/reports"
+      dest: /tmp/reports.zip
+      format: zip
+  - name: Fetching reports.zip
+    fetch:
+      src: /tmp/reports.zip
+      dest: "{{LOCAL_RUN_DIR}}/"
+      flat: yes
+  - name: Unarchive downloaded file 
+    unarchive:
+      src: "{{LOCAL_RUN_DIR}}/reports.zip"
+      dest: "{{LOCAL_RUN_DIR}}"
+      remote_src: yes
+    delegate_to: localhost
+  - name: Opening report
+    shell: "open {{GATHER_REPORTS_DIR}}/index.html &"
+    delegate_to: localhost
+  - name: Gatlings completed successfully
+    debug: 
+      msg: "Gatlings completed {{SIMULATION_NAME}} simulation successfully"

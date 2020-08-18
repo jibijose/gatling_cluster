@@ -1,0 +1,22 @@
+---
+- name: Create new remote run directory
+  file:
+    path: "{{ REMOTE_RUN_DIR }}"
+    state: absent
+- file:
+    path: "{{ REMOTE_RUN_DIR }}"
+    state: directory
+    mode: '0755'
+- name: Unarchive remote downloaded file
+  unarchive:
+    src: "{{ GATLING_DOWNLOAD_LINK }}"
+    dest: "{{ REMOTE_RUN_DIR }}"
+    remote_src: yes
+- name: Copy keys into host
+  copy:
+    src: "{{item}}"
+    dest: "{{GATLING_SIMULATIONS_DIR}}"
+    mode: '0600'
+  with_fileglob:
+    - "{{LOCAL_RUN_DIR}}/{{CLOUD}}/ssh_keys/{{SIMULATION_NAME}}/id_rsa"
+    - "{{LOCAL_RUN_DIR}}/{{CLOUD}}/ssh_keys/{{SIMULATION_NAME}}/id_rsa.pub"
