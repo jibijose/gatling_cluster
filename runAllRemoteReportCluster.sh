@@ -6,12 +6,12 @@ then
     exit 1
 fi
 
-#./setupVMs.sh $1 $2
-./setupGatlings.sh $1 $2
+cd ansible
+#ansible -i ec2.py -m ping tag_environment_gatling_test
+ansible-playbook -i ec2.py gatling.yml --extra-vars "CLOUD=$1 SIMULATION_NAME=$2" --private-key "../$1/ssh_keys/$2/id_rsa"
+cd ..
 
-./startGatlings.sh $1 $2
-./waitGatlings.sh $1 $2
-#./stopGatlings.sh $1 $2
 ./reportWithRemoteGatling.sh $1 $2
+#./cleanupLocal.sh
 
 echo "Remote execution completed"
