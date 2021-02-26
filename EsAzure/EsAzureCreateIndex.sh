@@ -3,13 +3,14 @@
 ES_HOST=10.118.23.39
 HTTP_MODE=http
 ES_PORT=9200
+AUTH="-u user:password"
 
-curl -X DELETE "$HTTP_MODE://$ES_HOST:$ES_PORT/employee?pretty"
-curl -X DELETE "$HTTP_MODE://$ES_HOST:$ES_PORT/employee-*?pretty"
+curl -X DELETE $AUTH "$HTTP_MODE://$ES_HOST:$ES_PORT/employee?pretty"
+curl -X DELETE $AUTH "$HTTP_MODE://$ES_HOST:$ES_PORT/employee-*?pretty"
 
 
 
-curl -X PUT "$HTTP_MODE://$ES_HOST:$ES_PORT/employee?pretty" -H 'Content-Type: application/json' -d'
+curl -X PUT $AUTH "$HTTP_MODE://$ES_HOST:$ES_PORT/employee?pretty" -H 'Content-Type: application/json' -d'
 {
   "settings": {
     "index": {
@@ -65,7 +66,7 @@ curl -X PUT "$HTTP_MODE://$ES_HOST:$ES_PORT/employee?pretty" -H 'Content-Type: a
 '
 
 
-curl -X PUT "$HTTP_MODE://$ES_HOST:$ES_PORT/_ilm/policy/my_policy?pretty" -H 'Content-Type: application/json' -d'
+curl -X PUT $AUTH "$HTTP_MODE://$ES_HOST:$ES_PORT/_ilm/policy/my_policy?pretty" -H 'Content-Type: application/json' -d'
 {
   "policy": {
     "phases": {
@@ -88,7 +89,7 @@ curl -X PUT "$HTTP_MODE://$ES_HOST:$ES_PORT/_ilm/policy/my_policy?pretty" -H 'Co
   }
 }
 '
-curl -X PUT "$HTTP_MODE://$ES_HOST:$ES_PORT/_template/my_template?pretty" -H 'Content-Type: application/json' -d'
+curl -X PUT $AUTH "$HTTP_MODE://$ES_HOST:$ES_PORT/_template/my_template?pretty" -H 'Content-Type: application/json' -d'
 {
   "index_patterns": ["employee-*"], 
   "settings": {
@@ -144,7 +145,7 @@ curl -X PUT "$HTTP_MODE://$ES_HOST:$ES_PORT/_template/my_template?pretty" -H 'Co
   }
 }
 '
-curl -X PUT "$HTTP_MODE://$ES_HOST:$ES_PORT/employee-000001?pretty" -H 'Content-Type: application/json' -d'
+curl -X PUT $AUTH "$HTTP_MODE://$ES_HOST:$ES_PORT/employee-000001?pretty" -H 'Content-Type: application/json' -d'
 {
   "aliases": {
     "employee":{
