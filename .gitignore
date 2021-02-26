@@ -4,6 +4,7 @@ gatling_cluster.iml
 **/terraform.tfstate
 **/terraform.tfstate.backup
 **/.terraform.tfstate.lock.info
+**/.terraform.lock.hcl
 
 **/ssh_keys/*
 **/variables.tf

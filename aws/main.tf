@@ -7,12 +7,12 @@ provider "aws" {
 }
 
 data "aws_vpc" "default" {
-  cidr_block = "${var.vpc_cidr}"
+  cidr_block = var.vpc_cidr
 }
 
 data "aws_subnet" "default" {
-  vpc_id = "${data.aws_vpc.default.id}"
-  cidr_block = "${var.subnet_cidr}"
+  vpc_id = data.aws_vpc.default.id
+  cidr_block = var.subnet_cidr
 }
 
 data "aws_ami" "linux" {
@@ -43,7 +43,7 @@ resource "aws_security_group" "sg" {
       from_port = 22
       to_port     = 22
       protocol    = "tcp"
-      cidr_blocks = ["${var.my_public_ip}/32", "${var.subnet_cidr}"]
+      cidr_blocks = ["${var.my_public_ip}/32", var.subnet_cidr]
     }
     egress {
       from_port       = 0
@@ -61,9 +61,10 @@ resource "aws_instance" "vm" {
   count                 = var.vmcount
   ami       =  data.aws_ami.linux.id
   instance_type = var.vmsize
-  security_groups = ["${aws_security_group.sg.id}"]
+  security_groups = [aws_security_group.sg.id]
   subnet_id = data.aws_subnet.default.id
   key_name = aws_key_pair.kp.id
+  associate_public_ip_address = true
 
   tags = {
     environment = "gatling_test"
@@ -75,7 +76,7 @@ resource "null_resource" "vminit" {
   count                 = var.vmcount
 
   triggers = {
-    public_ip = "${element(aws_instance.vm.*.public_ip, count.index)}"
+    public_ip = element(aws_instance.vm.*.public_ip, count.index)
   }
 
   connection {

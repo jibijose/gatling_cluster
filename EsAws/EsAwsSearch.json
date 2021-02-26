@@ -1,0 +1,60 @@
+{
+    "size": 50,
+    "query": {
+      "bool": {
+        "must": [
+          {
+            "range": {
+              "updatedTime": {
+                "from": null,
+                "to": null,
+                "include_lower": true,
+                "include_upper": true,
+                "boost": 1
+              }
+            }
+          }
+        ],
+        "filter": [
+          {
+            "terms": {
+              "customerId": [
+                "${randomCustomerId}"
+              ],
+              "boost": 1
+            }
+          }
+        ],
+        "adjust_pure_negative": true,
+        "boost": 1
+      }
+    },
+    "_source": {
+      "includes": [
+        "orderId",
+        "orderNumber",
+        "createdTime",
+        "updatedTime",
+        "orderState",
+        "locationId",
+        "legacyLocationId",
+        "channel",
+        "amendInProgress",
+        "legacyOrderId",
+        "isTillTransferred",
+        "orderValue",
+        "tags",
+        "clientIds"
+      ],
+      "excludes": [
+        
+      ]
+    },
+    "sort": [
+      {
+        "updatedTime": {
+          "order": "desc"
+        }
+      }
+    ]
+  }
